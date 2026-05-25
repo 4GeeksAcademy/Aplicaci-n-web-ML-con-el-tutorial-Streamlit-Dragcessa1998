@@ -1,112 +1,154 @@
-# Plantilla de Proyecto de Ciencia de Datos
+# Aplicacion web de ML con Streamlit
 
-Esta plantilla está diseñada para impulsar proyectos de ciencia de datos proporcionando una configuración básica para conexiones de base de datos, procesamiento de datos, y desarrollo de modelos de aprendizaje automático. Incluye una organización estructurada de carpetas para tus conjuntos de datos y un conjunto de paquetes de Python predefinidos necesarios para la mayoría de las tareas de ciencia de datos.
+![Banner del proyecto](reports/figures/streamlit_banner.png)
 
-## Estructura
+**Idioma / Language:** Español | [English](README.md)
 
-El proyecto está organizado de la siguiente manera:
+Este proyecto convierte el clasificador de especies Iris en una aplicacion web interactiva desarrollada con **Streamlit**. La interfaz permite introducir las medidas de una flor, consultar la especie estimada y revisar la probabilidad de cada clase.
 
-- **`src/app.py`** → Script principal de Python donde correrá tu proyecto.
-- **`src/explore.ipynb`** → Notebook para exploración y pruebas. Una vez finalizada la exploración, migra el código limpio a `app.py`.
-- **`src/utils.py`** → Funciones auxiliares, como conexión a bases de datos.
-- **`requirements.txt`** → Lista de paquetes de Python necesarios.
-- **`models/`** → Contendrá tus clases de modelos SQLAlchemy.
-- **`data/`** → Almacena los datasets en diferentes etapas:
-  - **`data/raw/`** → Datos sin procesar.
-  - **`data/interim/`** → Datos transformados temporalmente.
-  - **`data/processed/`** → Datos listos para análisis.
+## Objetivo
 
+- Reutilizar un modelo de Machine Learning entrenado previamente.
+- Construir una interfaz web con Streamlit.
+- Mostrar metricas, probabilidades y datos del modelo de forma clara.
+- Preparar el repositorio para despliegue en Streamlit Community Cloud y Render.
 
-## ⚡ Configuración Inicial en Codespaces (Recomendado)
+## Dataset
 
-No es necesario realizar ninguna configuración manual, ya que **Codespaces se configura automáticamente** con los archivos predefinidos que ha creado la academia para ti. Simplemente sigue estos pasos:
+Se utiliza el **UCI Iris Dataset**, cargado con `sklearn.datasets.load_iris`.
 
-1. **Espera a que el entorno se configure automáticamente**.
-   - Todos los paquetes necesarios y la base de datos se instalarán por sí mismos.
-   - El `username` y `db_name` creados automáticamente están en el archivo **`.env`** en la raíz del proyecto.
-2. **Una vez que Codespaces esté listo, puedes comenzar a trabajar inmediatamente**.
+Variables predictoras:
 
+- `sepal_length_cm`
+- `sepal_width_cm`
+- `petal_length_cm`
+- `petal_width_cm`
 
-## 💻 Configuración en Local (Solo si no puedes usar Codespaces)
+Variable objetivo:
 
-**Prerrequisitos**
+- `species`
 
-Asegúrate de tener Python 3.11+ instalado en tu máquina. También necesitarás pip para instalar los paquetes de Python.
+## Modelo
 
-**Instalación**
+El pipeline de Machine Learning usa:
 
-Clona el repositorio del proyecto en tu máquina local.
+- `StandardScaler`
+- `RandomForestClassifier`
+- `GridSearchCV` para optimizar hiperparametros
 
-Navega hasta el directorio del proyecto e instala los paquetes de Python requeridos:
+Resultados principales:
+
+- Accuracy optimizado: `0.933`
+- F1 macro optimizado: `0.933`
+
+El modelo entrenado se guarda en:
+
+```text
+models/iris_classifier.joblib
+```
+
+## Aplicacion Streamlit
+
+La aplicacion principal esta en:
+
+```text
+src/app.py
+```
+
+La app incluye:
+
+- Sliders para introducir medidas botanicas.
+- Prediccion de especie Iris.
+- Grafico de probabilidades por clase.
+- Metricas del modelo.
+- Importancia de variables.
+- Vista del dataset.
+
+## Estructura del proyecto
+
+```text
+.
+├── .streamlit/config.toml
+├── data/
+│   ├── raw/iris.csv
+│   └── processed/
+│       ├── train.csv
+│       └── test.csv
+├── models/
+│   ├── iris_classifier.joblib
+│   └── iris_metrics.json
+├── reports/figures/
+│   ├── feature_importance.png
+│   ├── petal_scatter.png
+│   ├── species_distribution.png
+│   └── streamlit_banner.png
+├── src/
+│   ├── app.py
+│   ├── explore.ipynb
+│   ├── train_model.py
+│   └── utils.py
+├── Procfile
+├── render.yaml
+└── requirements.txt
+```
+
+## Ejecutar localmente
+
+Instala dependencias:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**Crear una base de datos (si es necesario)**
-
-Crea una nueva base de datos dentro del motor Postgres personalizando y ejecutando el siguiente comando: 
+Entrena o regenera el modelo:
 
 ```bash
-$ psql -U postgres -c "DO \$\$ BEGIN 
-    CREATE USER mi_usuario WITH PASSWORD 'mi_contraseña'; 
-    CREATE DATABASE mi_base_de_datos OWNER mi_usuario; 
-END \$\$;"
+python src/train_model.py
 ```
-Conéctate al motor Postgres para usar tu base de datos, manipular tablas y datos: 
+
+Ejecuta la aplicacion:
 
 ```bash
-$ psql -U mi_usuario -d mi_base_de_datos
+streamlit run src/app.py
 ```
 
-¡Una vez que estés dentro de PSQL podrás crear tablas, hacer consultas, insertar, actualizar o eliminar datos y mucho más!
+## Despliegue en Streamlit Community Cloud
 
-**Variables de entorno**
+1. Entra en [share.streamlit.io](https://share.streamlit.io/).
+2. Conecta tu cuenta de GitHub.
+3. Selecciona este repositorio.
+4. Usa como archivo principal:
 
-Crea un archivo .env en el directorio raíz del proyecto para almacenar tus variables de entorno, como tu cadena de conexión a la base de datos:
-
-```makefile
-DATABASE_URL="postgresql://<USUARIO>:<CONTRASEÑA>@<HOST>:<PUERTO>/<NOMBRE_BD>"
-
-#example
-DATABASE_URL="postgresql://mi_usuario:mi_contraseña@localhost:5432/mi_base_de_datos"
+```text
+src/app.py
 ```
 
-## Ejecutando la Aplicación
+5. Streamlit instalara las dependencias desde `requirements.txt`.
 
-Para ejecutar la aplicación, ejecuta el script app.py desde la raíz del directorio del proyecto:
+URL de Streamlit:
 
-```bash
-python src/app.py
+```text
+Pendiente de pegar despues del despliegue.
 ```
 
-## Añadiendo Modelos
+## Despliegue en Render
 
-Para añadir clases de modelos SQLAlchemy, crea nuevos archivos de script de Python dentro del directorio models/. Estas clases deben ser definidas de acuerdo a tu esquema de base de datos.
+Este repositorio incluye `render.yaml` y `Procfile`.
 
-Definición del modelo de ejemplo (`models/example_model.py`):
+Configuracion esperada:
 
-```py
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `streamlit run src/app.py --server.port $PORT --server.address 0.0.0.0`
 
-Base = declarative_base()
+URL de Render:
 
-class ExampleModel(Base):
-    __tablename__ = 'example_table'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(unique=True)
+```text
+Pendiente de pegar despues del despliegue.
 ```
 
-## Trabajando con Datos
+## Recursos externos
 
-Puedes colocar tus conjuntos de datos brutos en el directorio data/raw, conjuntos de datos intermedios en data/interim, y los conjuntos de datos procesados listos para el análisis en data/processed.
-
-Para procesar datos, puedes modificar el script app.py para incluir tus pasos de procesamiento de datos, utilizando pandas para la manipulación y análisis de datos.
-
-## Contribuyentes
-
-Esta plantilla fue construida como parte del [Data Science and Machine Learning Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning) de 4Geeks Academy por [Alejandro Sanchez](https://twitter.com/alesanchezr) y muchos otros contribuyentes. Descubre más sobre [los programas BootCamp de 4Geeks Academy](https://4geeksacademy.com/us/programs) aquí.
-
-Otras plantillas y recursos como este se pueden encontrar en la página de GitHub de la escuela.
+- UCI Iris Dataset via scikit-learn.
+- Streamlit documentation.
+- Render Web Services documentation.
+- Streamlit Community Cloud.

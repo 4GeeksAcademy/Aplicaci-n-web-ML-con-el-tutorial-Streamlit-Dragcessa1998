@@ -1,112 +1,154 @@
-# Data Science Project Boilerplate
+# ML Web Application with Streamlit
 
-This boilerplate is designed to kickstart data science projects by providing a basic setup for database connections, data processing, and machine learning model development. It includes a structured folder organization for your datasets and a set of pre-defined Python packages necessary for most data science tasks.
+![Project banner](reports/figures/streamlit_banner.png)
 
-## Structure
+**Idioma / Language:** [Español](README.es.md) | English
 
-The project is organized as follows:
+This project turns an Iris species classifier into an interactive **Streamlit** web application. Users can enter four flower measurements, obtain the predicted Iris species, and review class probabilities.
 
-- **`src/app.py`** → Main Python script where your project will run.
-- **`src/explore.ipynb`** → Notebook for exploration and testing. Once exploration is complete, migrate the clean code to `app.py`.
-- **`src/utils.py`** → Auxiliary functions, such as database connection.
-- **`requirements.txt`** → List of required Python packages.
-- **`models/`** → Will contain your SQLAlchemy model classes.
-- **`data/`** → Stores datasets at different stages:
-  - **`data/raw/`** → Raw data.
-  - **`data/interim/`** → Temporarily transformed data.
-  - **`data/processed/`** → Data ready for analysis.
+## Goal
 
+- Reuse a previously trained Machine Learning model.
+- Build a Streamlit web interface.
+- Display model metrics, probabilities, and dataset information clearly.
+- Prepare the repository for Streamlit Community Cloud and Render deployment.
 
-## ⚡ Initial Setup in Codespaces (Recommended)
+## Dataset
 
-No manual setup is required, as **Codespaces is automatically configured** with the predefined files created by the academy for you. Just follow these steps:
+The project uses the **UCI Iris Dataset**, loaded with `sklearn.datasets.load_iris`.
 
-1. **Wait for the environment to configure automatically**.
-   - All necessary packages and the database will install themselves.
-   - The automatically created `username` and `db_name` are in the **`.env`** file at the root of the project.
-2. **Once Codespaces is ready, you can start working immediately**.
+Features:
 
+- `sepal_length_cm`
+- `sepal_width_cm`
+- `petal_length_cm`
+- `petal_width_cm`
 
-## 💻 Local Setup (Only if you can't use Codespaces)
+Target:
 
-**Prerequisites**
+- `species`
 
-Make sure you have Python 3.11+ installed on your machine. You will also need pip to install the Python packages.
+## Model
 
-**Installation**
+The Machine Learning pipeline uses:
 
-Clone the project repository to your local machine.
+- `StandardScaler`
+- `RandomForestClassifier`
+- `GridSearchCV` for hyperparameter tuning
 
-Navigate to the project directory and install the required Python packages:
+Main results:
+
+- Optimized accuracy: `0.933`
+- Optimized macro F1: `0.933`
+
+The trained model is saved at:
+
+```text
+models/iris_classifier.joblib
+```
+
+## Streamlit App
+
+The main application is:
+
+```text
+src/app.py
+```
+
+The app includes:
+
+- Sliders for botanical measurements.
+- Iris species prediction.
+- Class probability chart.
+- Model metrics.
+- Feature importance.
+- Dataset preview.
+
+## Project Structure
+
+```text
+.
+├── .streamlit/config.toml
+├── data/
+│   ├── raw/iris.csv
+│   └── processed/
+│       ├── train.csv
+│       └── test.csv
+├── models/
+│   ├── iris_classifier.joblib
+│   └── iris_metrics.json
+├── reports/figures/
+│   ├── feature_importance.png
+│   ├── petal_scatter.png
+│   ├── species_distribution.png
+│   └── streamlit_banner.png
+├── src/
+│   ├── app.py
+│   ├── explore.ipynb
+│   ├── train_model.py
+│   └── utils.py
+├── Procfile
+├── render.yaml
+└── requirements.txt
+```
+
+## Run Locally
+
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**Create a database (if necessary)**
-
-Create a new database within the Postgres engine by customizing and executing the following command:
+Train or regenerate the model:
 
 ```bash
-$ psql -U postgres -c "DO \$\$ BEGIN 
-    CREATE USER my_user WITH PASSWORD 'my_password'; 
-    CREATE DATABASE my_database OWNER my_user; 
-END \$\$;"
+python src/train_model.py
 ```
-Connect to the Postgres engine to use your database, manipulate tables, and data:
+
+Run the app:
 
 ```bash
-$ psql -U my_user -d my_database
+streamlit run src/app.py
 ```
 
-Once inside PSQL, you can create tables, run queries, insert, update, or delete data, and much more!
+## Streamlit Community Cloud
 
-**Environment Variables**
+1. Go to [share.streamlit.io](https://share.streamlit.io/).
+2. Connect your GitHub account.
+3. Select this repository.
+4. Use this main file:
 
-Create a .env file in the root directory of the project to store your environment variables, such as your database connection string:
-
-```makefile
-DATABASE_URL="postgresql://<USER>:<PASSWORD>@<HOST>:<PORT>/<DB_NAME>"
-
-#example
-DATABASE_URL="postgresql://my_user:my_password@localhost:5432/my_database"
+```text
+src/app.py
 ```
 
-## Running the Application
+5. Streamlit will install dependencies from `requirements.txt`.
 
-To run the application, execute the app.py script from the root directory of the project:
+Streamlit URL:
 
-```bash
-python src/app.py
+```text
+Pending after deployment.
 ```
 
-## Adding Models
+## Render Deployment
 
-To add SQLAlchemy model classes, create new Python script files within the models/ directory. These classes should be defined according to your database schema.
+This repository includes `render.yaml` and `Procfile`.
 
-Example model definition (`models/example_model.py`):
+Expected configuration:
 
-```py
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `streamlit run src/app.py --server.port $PORT --server.address 0.0.0.0`
 
-Base = declarative_base()
+Render URL:
 
-class ExampleModel(Base):
-    __tablename__ = 'example_table'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(unique=True)
+```text
+Pending after deployment.
 ```
 
-## Working with Data
+## External Resources
 
-You can place your raw datasets in the data/raw directory, intermediate datasets in data/interim, and processed datasets ready for analysis in data/processed.
-
-To process data, you can modify the app.py script to include your data processing steps, using pandas for data manipulation and analysis.
-
-## Contributors
-
-This template was built as part of the [Data Science and Machine Learning Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning) by 4Geeks Academy by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Learn more about [4Geeks Academy BootCamp programs](https://4geeksacademy.com/us/programs) here.
-
-Other templates and resources like this can be found on the school's GitHub page.
+- UCI Iris Dataset via scikit-learn.
+- Streamlit documentation.
+- Render Web Services documentation.
+- Streamlit Community Cloud.

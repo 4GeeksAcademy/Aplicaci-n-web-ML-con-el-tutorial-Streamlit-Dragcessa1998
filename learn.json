@@ -1,15 +1,15 @@
 {
   "title": {
-    "en": "Machine Learning Python Template",
-    "es": "Plantilla para Aprendizaje de Máquina con Python"
+    "en": "ML Web Application with Streamlit",
+    "es": "Aplicacion web de ML con Streamlit"
   },
   "description": {
-    "us": "A standardized, but flexible project structure for doing and sharing data science and machine learning work.",
-    "es": "Una estructura de proyecto estandarizada, pero flexible, para realizar y compartir trabajos de ciencia de datos y aprendizaje de máquina."
+    "en": "A Streamlit application that serves an optimized Iris species classifier and is ready for deployment.",
+    "es": "Una aplicacion Streamlit que consume un clasificador optimizado de especies Iris y esta preparada para despliegue."
   },
-  "repository": "https://github.com/4GeeksAcademy/machine-learning-python-template",
-  "preview": "https://github.com/4GeeksAcademy/machine-learning-python-template/blob/main/preview.jpg?raw=true",
-  "projectType": "template",
+  "repository": "https://github.com/4GeeksAcademy/Aplicaci-n-web-ML-con-el-tutorial-Streamlit-Dragcessa1998",
+  "preview": "https://github.com/4GeeksAcademy/Aplicaci-n-web-ML-con-el-tutorial-Streamlit-Dragcessa1998/blob/main/reports/figures/streamlit_banner.png?raw=true",
+  "projectType": "project",
   "difficulty": "beginner",
-  "technologies": ["Python", "Machine-Learning", "Datascience", "ai-engineering"]
+  "technologies": ["Python", "Machine-Learning", "Streamlit", "Scikit-learn", "Render"]
 }

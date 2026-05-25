@@ -1,0 +1,160 @@
+{
+  "dataset": {
+    "source": "UCI Iris Dataset, loaded with sklearn.datasets.load_iris",
+    "rows": 150,
+    "features": [
+      "sepal_length_cm",
+      "sepal_width_cm",
+      "petal_length_cm",
+      "petal_width_cm"
+    ],
+    "target": "species",
+    "classes": [
+      "setosa",
+      "versicolor",
+      "virginica"
+    ],
+    "train_rows": 120,
+    "test_rows": 30
+  },
+  "baseline_model": {
+    "accuracy": 0.9,
+    "macro_f1": 0.8997,
+    "confusion_matrix": [
+      [
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        9,
+        1
+      ],
+      [
+        0,
+        2,
+        8
+      ]
+    ],
+    "classification_report": {
+      "setosa": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 10.0
+      },
+      "versicolor": {
+        "precision": 0.8181818181818182,
+        "recall": 0.9,
+        "f1-score": 0.8571428571428571,
+        "support": 10.0
+      },
+      "virginica": {
+        "precision": 0.8888888888888888,
+        "recall": 0.8,
+        "f1-score": 0.8421052631578947,
+        "support": 10.0
+      },
+      "accuracy": 0.9,
+      "macro avg": {
+        "precision": 0.9023569023569024,
+        "recall": 0.9,
+        "f1-score": 0.899749373433584,
+        "support": 30.0
+      },
+      "weighted avg": {
+        "precision": 0.9023569023569024,
+        "recall": 0.9,
+        "f1-score": 0.8997493734335839,
+        "support": 30.0
+      }
+    }
+  },
+  "optimized_model": {
+    "best_params": {
+      "classifier__max_depth": 2,
+      "classifier__min_samples_leaf": 1,
+      "classifier__n_estimators": 80
+    },
+    "best_cv_accuracy": 0.9583,
+    "accuracy": 0.9333,
+    "macro_f1": 0.9333,
+    "confusion_matrix": [
+      [
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        9,
+        1
+      ],
+      [
+        0,
+        1,
+        9
+      ]
+    ],
+    "classification_report": {
+      "setosa": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 10.0
+      },
+      "versicolor": {
+        "precision": 0.9,
+        "recall": 0.9,
+        "f1-score": 0.9,
+        "support": 10.0
+      },
+      "virginica": {
+        "precision": 0.9,
+        "recall": 0.9,
+        "f1-score": 0.9,
+        "support": 10.0
+      },
+      "accuracy": 0.9333333333333333,
+      "macro avg": {
+        "precision": 0.9333333333333332,
+        "recall": 0.9333333333333332,
+        "f1-score": 0.9333333333333332,
+        "support": 30.0
+      },
+      "weighted avg": {
+        "precision": 0.9333333333333333,
+        "recall": 0.9333333333333333,
+        "f1-score": 0.9333333333333333,
+        "support": 30.0
+      }
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "petal_width_cm",
+      "importance": 0.4412
+    },
+    {
+      "feature": "petal_length_cm",
+      "importance": 0.4271
+    },
+    {
+      "feature": "sepal_length_cm",
+      "importance": 0.1309
+    },
+    {
+      "feature": "sepal_width_cm",
+      "importance": 0.0008
+    }
+  ],
+  "artifacts": {
+    "model_path": "models\\iris_classifier.joblib",
+    "metrics_path": "models\\iris_metrics.json",
+    "raw_data_path": "data\\raw\\iris.csv",
+    "train_path": "data\\processed\\train.csv",
+    "test_path": "data\\processed\\test.csv",
+    "figures_dir": "reports\\figures"
+  }
+}

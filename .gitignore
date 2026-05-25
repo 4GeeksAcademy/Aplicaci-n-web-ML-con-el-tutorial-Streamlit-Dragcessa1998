@@ -1,3 +1,7 @@
 __pycache__
 .env
 .learn
+.ipython/
+.venv/
+*.pyc
+.streamlit/secrets.toml
