@@ -205,7 +205,11 @@ def create_visualizations(df: pd.DataFrame, feature_importance: list[dict[str, A
 def load_model_artifact() -> dict[str, Any]:
     if not MODEL_PATH.exists():
         train_and_save_model()
-    return joblib.load(MODEL_PATH)
+    try:
+        return joblib.load(MODEL_PATH)
+    except Exception:
+        train_and_save_model()
+        return joblib.load(MODEL_PATH)
 
 
 def predict_species(artifact: dict[str, Any], features: dict[str, float]) -> dict[str, Any]:
